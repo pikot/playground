@@ -28,11 +28,10 @@ for count in ${COUNT_TEST_ARRAY[@]}; do
                 ./key_counter -n $n -i $FNAME -o $RES_FNAME
 
                 echo `date +"%T"` "compare $RES_TFNAME and  $RES_FNAME" 
-                diff  $RES_TFNAME $RES_FNAME
                 DIFF=$(diff  $RES_TFNAME $RES_FNAME) 
                 if [ "$DIFF" == "" ] 
                 then
-                    echo `date +"%T"` "compare $RES_TFNAME and  $RES_FNAME  is OK"
+                    echo `date +"%T"` "compare $RES_TFNAME and  $RES_FNAME   OK"
                 fi
 
 

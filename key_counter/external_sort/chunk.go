@@ -2,7 +2,6 @@ package external
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"os"
 	"sort"
@@ -67,9 +66,6 @@ func (si StatFileIn) WriteRest(so *StatFileOut) {
 
 		if io.EOF == err {
 			break
-		}
-		if str == "" {
-			fmt.Println("WriteRes ", str, ", ", err)
 		}
 
 		so.writer.WriteString(str + "\n")

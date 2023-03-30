@@ -92,6 +92,16 @@ func processChunks(level uint32, cntFiles uint32) (levelNext uint32, cntFilesNex
 	return
 }
 
+func writeArrToChunk(cntFiles uint32, arr []string) error {
+	iter, err := NewStatFileOut(uint32(0), cntFiles)
+	if nil != err {
+		return err
+	}
+	iter.WriteArr(arr)
+	iter.Close()
+	return nil
+}
+
 func SplitInputFile(fname string, maxICnt int) (uint32, error) {
 	file, err := os.Open(fname)
 	if err != nil {
@@ -107,13 +117,10 @@ func SplitInputFile(fname string, maxICnt int) (uint32, error) {
 		line := scanner.Text()
 		arr = append(arr, line)
 		if cntr == maxICnt {
-			iter, err := NewStatFileOut(uint32(0), cntFiles)
+			err = writeArrToChunk(cntFiles, arr)
 			if nil != err {
 				return 0, err
 			}
-			iter.WriteArr(arr)
-			iter.Close()
-
 			arr = []string{}
 			cntFiles += 1
 			cntr = 0
@@ -122,12 +129,10 @@ func SplitInputFile(fname string, maxICnt int) (uint32, error) {
 		}
 	}
 	if cntr > 0 {
-		iter, err := NewStatFileOut(uint32(0), cntFiles)
+		err = writeArrToChunk(cntFiles, arr)
 		if nil != err {
 			return 0, err
 		}
-		iter.WriteArr(arr)
-		iter.Close()
 		cntFiles += 1
 	}
 
